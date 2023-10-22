@@ -35,7 +35,7 @@ def leer_archivo_json(contenido):
                 estado = transaccion.get("estado")
                 tipo_transaccion = transaccion.get("tipo")
                 cuenta_numero = transaccion.get("cuentaNumero")
-                permitido_actual = transaccion.get("permitidoActualParaTransaccion")
+                permitido_actual = transaccion.get("saldoDisponibleEnCuenta")
                 monto = transaccion.get("monto")
                 fecha = transaccion.get("fecha")
                 numero_transaccion = transaccion.get("numero")
@@ -43,7 +43,7 @@ def leer_archivo_json(contenido):
                     "estado": estado,
                     "tipo": tipo_transaccion,
                     "cuentaNumero": cuenta_numero,
-                    "permitidoActualParaTransaccion": permitido_actual,
+                    "saldoDisponibleEnCuenta": permitido_actual,
                     "monto": monto,
                     "fecha": fecha,
                     "numero": numero_transaccion

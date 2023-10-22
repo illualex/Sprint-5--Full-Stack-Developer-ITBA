@@ -9,7 +9,7 @@
       "estado": "ACEPTADA",
       "tipo": "RETIRO_EFECTIVO_CAJERO_AUTOMATICO",
       "cuentaNumero": 190,
-      "permitidoActualParaTransccion": 9000,
+      "saldoDisponibleEnCuenta": 9000,
       "monto": 1000,
       "fecha": "10/10/2022 16: 00: 55",
       "numero": 1
@@ -17,10 +17,43 @@
     {
       "estado": "RECHAZADA",
       "tipo": "COMPRA_EN_CUOTAS_TARJETA_CREDITO_VISA",
-      "permitidoActualParaTransccion": 9000,
+      "saldoDisponibleEnCuenta": 9000,
       "monto": 750000,
-      "fecha": "10/10/2022 16: 14: 35",
+      "fecha": "12/10/2022 16: 14: 35",
       "numero": 2
+    },
+    {
+      "estado": "RECHAZADA",
+      "tipo": "RETIRO_EFECTIVO_CAJERO_AUTOMATICO",
+      "saldoDisponibleEnCuenta": 30000,
+      "monto": 21000,
+      "fecha": "15/10/2022 16: 14: 35",
+      "numero": 3
+    },
+    {
+      "estado": "RECHAZADA",
+      "tipo": "ALTA_TARJETA_CREDITO_AMEX",
+      "saldoDisponibleEnCuenta": 30000,
+      "monto": 21000,
+      "fecha": "13/10/2022 16: 14: 35",
+      "cantTarjetasOtorgadas": 10,
+      "numero": 4
+    },
+    {
+      "estado": "RECHAZADA",
+      "tipo": "COMPRA_DOLAR",
+      "saldoDisponibleEnCuenta": 30000,
+      "monto": 500,
+      "fecha": "13/10/2022 16: 14: 35",
+      "numero": 5
+    },
+    {
+      "estado": "RECHAZADA",
+      "tipo": "VENTA_DOLAR",
+      "saldoDisponibleEnCuenta": 300,
+      "monto": 500,
+      "fecha": "13/10/2022 16: 14: 35",
+      "numero": 6
     }
   ]
 }

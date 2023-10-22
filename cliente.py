@@ -1,6 +1,7 @@
 from resumen import Resumen
 
 class Cliente:
+    PRECIO_DOLAR = 1000
     def __init__(self, numero, nombre, apellido, dni, tipo, transacciones):
         self.numero = numero
         self.nombre = nombre
@@ -24,7 +25,21 @@ class Cliente:
         self.chequeras = 0
         self.transacciones = transacciones
 
+    def calcular_monto_total(self, transaccion):
+        impuesto_pais = 0.30  # Impuesto país del 30%
+        ganancias = 0.35  # Ganancias del 35%
+        total = transaccion["monto"] * self.PRECIO_DOLAR
+        total += total * impuesto_pais
+        total += total * ganancias
+        return total
+    
+    def descontar_comision(self, monto, comision_porcentaje):
+        comision = monto * comision_porcentaje
+        return monto - comision
 
+    def calcular_monto_plazo_fijo(self, monto, interes):
+        return monto * (1 + (interes / 100))
+    
     def agregar_transaccion(self, transaccion):
         self.transacciones.append(transaccion)
 
@@ -39,20 +54,18 @@ class Cliente:
 
     #SWITCH
     def procesar_retiro_efectivo_cajero_automatico(self, transaccion):
-        # Implementa el procesamiento para RETIRO_EFECTIVO_CAJERO_AUTOMATICO aquí
-        pass
-
+        if (transaccion["saldoDisponibleEnCuenta"] < transaccion["monto"]) or (transaccion["monto"] > self.limite_retiro_diario):
+            return "El cliente no dispone de saldo suficiente para retirar en cajero."
+        
     def procesar_retiro_efectivo_por_caja(self, transaccion):
-        # Implementa el procesamiento para RETIRO_EFECTIVO_POR_CAJA aquí
         pass
-    
     def procesar_compra_tarjeta_credito(self, transaccion):
         pass
-   
     def procesar_alta_tarjeta_credito(self, transaccion):
         pass
-
     def procesar_alta_tarjeta_debito(self, transaccion):
+        #FALTA INFORMACIÓN.
+        #falta saber la cantidad que tiene debito
         pass
     def procesar_alta_chequera(self, transaccion):
         pass
@@ -70,25 +83,6 @@ class Cliente:
         pass
     def procesar_transferencia_recibida(self, transaccion):
         pass
-
-    switch = {
-        "RETIRO_EFECTIVO_CAJERO_AUTOMATICO": procesar_retiro_efectivo_cajero_automatico,
-        "RETIRO_EFECTIVO_POR_CAJA": procesar_retiro_efectivo_por_caja,
-        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_VISA": procesar_compra_tarjeta_credito,
-        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_MASTERCARD": procesar_compra_tarjeta_credito,
-        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_AMEX": procesar_compra_tarjeta_credito,
-        "COMPRA_TARJETA_CREDITO": procesar_compra_tarjeta_credito,
-        "ALTA_TARJETA_CREDITO": procesar_alta_tarjeta_credito,
-        "ALTA_TARJETA_DEBITO": procesar_alta_tarjeta_debito,
-        "ALTA_CHEQUERA": procesar_alta_chequera,
-        "ALTA_CUENTA_CTE": procesar_alta_cuenta_corriente,
-        "ALTA_CAJA_DE_AHORRO": procesar_alta_caja_ahorro,
-        "ALTA_CUENTA_DE_INVERSION": procesar_alta_cuenta_inversion,
-        "COMPRA_DOLAR": procesar_compra_dolar,
-        "VENTA_DOLAR": procesar_venta_dolar,
-        "TRANSFERENCIA_ENVIADA": procesar_transferencia_enviada,
-        "TRANSFERENCIA_RECIBIDA": procesar_transferencia_recibida,
-    }
     
     def procesar_transaccion(self):
         # Implementar restricciones específicas en las clases derivadas
@@ -99,12 +93,14 @@ class Cliente:
                 
                 # Obtén la función correspondiente a la transacción
                 funcion = self.switch.get(transaccion.get("tipo"))
-
+                if funcion is None:
+                    funcion = Cliente.switch.get(transaccion.get("tipo"))
+                
                 if funcion:
                     motivo = funcion(self, transaccion)
                     resumen = Resumen(transaccion["estado"], transaccion["tipo"], transaccion["fecha"], transaccion["numero"], motivo)
                     resumen_completo.append(resumen)
-                else:
+                else:    
                     print(f"Operación no reconocida: {transaccion.get('tipo')}")
             else:
                 resumen = Resumen(transaccion["estado"], transaccion["tipo"], transaccion["fecha"], transaccion["numero"], "Operación aceptada.")
@@ -112,6 +108,10 @@ class Cliente:
 
         return resumen_completo
 
+    switch = {
+       "RETIRO_EFECTIVO_CAJERO_AUTOMATICO": procesar_retiro_efectivo_cajero_automatico,
+       "ALTA_TARJETA_DEBITO": procesar_alta_tarjeta_debito
+    }
     
 
     

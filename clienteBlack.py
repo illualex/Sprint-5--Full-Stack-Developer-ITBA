@@ -31,49 +31,54 @@ class ClienteBlack(Cliente):
         self.cuentas_inversion = 1
         self.chequeras = 2
 
+    def procesar_compra_cuotas_tarjeta_credito(self, transaccion):
+        partes = transaccion["tipo"].split("_")
+        nombre_tarjeta = partes[-1]
+        if transaccion["monto"] > self.limite_cuotas:
+            return "La tarjeta " + nombre_tarjeta + " excede el limite en cuotas."
+        
+    def procesar_compra_un_pago_tarjeta_credito(self, transaccion):
+        partes = transaccion["tipo"].split("_")
+        nombre_tarjeta = partes[-1]
+        if transaccion["monto"] > self.limite_un_pago:
+            return "La tarjeta " + nombre_tarjeta + " excede el limite en un pago."
 
-    def aplicar_restricciones(self):
-        if self.cajas_ahorro_pesos > 5 or self.cajas_ahorro_dolares > 5:
-            # Aplicar cargo mensual adicional por exceso de cajas de ahorro
-            self.comision_transferencia_entrante += 0.005
-            self.comision_transferencia_saliente += 0.01
+    def procesar_alta_tarjeta_credito(self, transaccion):
+        #FALTA INFORMACIÓN.
+        #posible rechazo falta información.
+        pass
 
-        if self.cuenta_corriente > 3:
-            # Limitar a 3 cuentas corrientes
-            self.cuenta_corriente = 3
-
-        if len(self.tarjetas_debito) > 5:
-            # Limitar a 5 tarjetas de débito
-            self.tarjetas_debito = self.tarjetas_debito[:5]
-
-        if len(self.tarjetas_credito) > 10:
-            # Limitar a 10 tarjetas de crédito
-            self.tarjetas_credito = self.tarjetas_credito[:10]
-
-        if self.limite_retiro_diario > 100000:
-            # No hay límite para retiros diarios sin comisiones
-            self.limite_retiro_diario = 0
-
-        if self.chequeras > 2:
-            # Limitar a 2 chequeras
-            self.chequeras = 2
-
-        # Implementar las demás restricciones específicas para el cliente Black
-
-    def calcular_monto_total(self, precio_dolar, monto):
-        impuesto_pais = 0.30  # Impuesto país del 30%
-        ganancias = 0.35  # Ganancias del 35%
-        total = monto * precio_dolar
-        total += total * impuesto_pais
-        total += total * ganancias
-        return total
-
-    def descontar_comision(self, monto, comision_porcentaje):
-        comision = monto * comision_porcentaje
-        return monto - comision
-
-    def calcular_monto_plazo_fijo(self, monto, interes):
-        return monto * (1 + (interes / 100))
+    def procesar_alta_chequera(self, transaccion):
+        #FALTA INFORMACIÓN.
+        pass
     
-    def procesar_transaccion(self):
-        pass  # Implementar restricciones específicas en las clases derivadas
+    def procesar_compra_dolar(self, transaccion):
+        monto = Cliente.calcular_monto_total(self, transaccion)
+        if monto > transaccion["saldoDisponibleEnCuenta"]:
+            return "El cliente no posee saldo suficiente para la compra en dólares."
+        
+    def procesar_venta_dolar(self, transaccion):
+        if transaccion["monto"] > transaccion["saldoDisponibleEnCuenta"]:
+            return "El cliente no posee saldo suficiente para la venta de dólares."
+
+    switch = {
+        #"RETIRO_EFECTIVO_POR_CAJA": procesar_retiro_efectivo_por_caja,
+        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_VISA": procesar_compra_cuotas_tarjeta_credito,
+        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_MASTERCARD": procesar_compra_cuotas_tarjeta_credito,
+        "COMPRA_EN_CUOTAS_TARJETA_CREDITO_AMEX": procesar_compra_cuotas_tarjeta_credito,
+        "COMPRA_TARJETA_CREDITO_VISA": procesar_compra_un_pago_tarjeta_credito,
+        "COMPRA_TARJETA_CREDITO_MASTERCARD": procesar_compra_un_pago_tarjeta_credito,
+        "COMPRA_TARJETA_CREDITO_AMEX": procesar_compra_un_pago_tarjeta_credito,
+        "ALTA_TARJETA_CREDITO_VISA": procesar_alta_tarjeta_credito,
+        "ALTA_TARJETA_CREDITO_MASTERCARD": procesar_alta_tarjeta_credito,
+        "ALTA_TARJETA_CREDITO_AMEX": procesar_alta_tarjeta_credito,
+        "ALTA_CHEQUERA": procesar_alta_chequera,
+        #"ALTA_CUENTA_CTE": procesar_alta_cuenta_corriente,
+        #"ALTA_CAJA_DE_AHORRO": procesar_alta_caja_ahorro,
+        #"ALTA_CUENTA_DE_INVERSION": procesar_alta_cuenta_inversion,
+        "COMPRA_DOLAR": procesar_compra_dolar,
+        "VENTA_DOLAR": procesar_venta_dolar,
+        #"TRANSFERENCIA_ENVIADA": procesar_transferencia_enviada,
+        #"TRANSFERENCIA_RECIBIDA": procesar_transferencia_recibida,
+    }
+
