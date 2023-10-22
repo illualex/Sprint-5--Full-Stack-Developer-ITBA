@@ -17,20 +17,16 @@ class ClienteClassic(Cliente):
         self.comision_transferencia_saliente = 1
         self.comision_transferencia_entrante = 0.5
 
+    
     def calcular_monto_total(self, precio_dolar, monto):
-        impuesto_pais = 0.30  # Impuesto país del 30%
-        ganancias = 0.35  # Ganancias del 35%
-        total = monto * precio_dolar
-        total += total * impuesto_pais
-        total += total * ganancias
-        return total
+            # Simplemente llama a la función calcular_monto_total de funciones.py
+            return calcular_monto_total(precio_dolar, monto)
 
     def descontar_comision(self, monto, comision_porcentaje):
-        comision = monto * comision_porcentaje
-        return monto - comision
+        return descontar_comision(monto,comision_porcentaje)
 
     def calcular_monto_plazo_fijo(self, monto, interes):
-        return monto * (1 + (interes / 100))
+        return calcular_monto_plazo_fijo(self, monto, interes)
     
     
 

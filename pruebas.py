@@ -2,25 +2,21 @@ import unittest
 from funciones import calcular_monto_total, descontar_comision, calcular_monto_plazo_fijo
 
 class TestFunciones(unittest.TestCase):
-    def test_calcular_monto_total_clienteClassic(self):
-        resultado = calcular_monto_total(100, 1000, 0.5, 1, tipo_cliente="clienteClassic")
-        self.assertAlmostEqual(round(resultado, 2), 1015.0)  # Resultado esperado redondeado
 
-    def test_calcular_monto_total_clienteGold(self):
-        resultado = calcular_monto_total(100, 1000, 0.1, 0.5, tipo_cliente="clienteGold")
-        self.assertAlmostEqual(round(resultado, 2), 1006.0)  # Resultado esperado redondeado
-
-    def test_calcular_monto_total_clienteBlack(self):
-        resultado = calcular_monto_total(100, 1000, 0, 0, tipo_cliente="clienteBlack")
-        self.assertAlmostEqual(round(resultado, 2), 1000.0)  # Resultado esperado redondeado
+    def test_calcular_monto_total(self):
+        # Pruebas para calcular_monto_total con los nuevos valores esperados
+        self.assertAlmostEqual(calcular_monto_total(1000, 1000), 1.65 )
+        self.assertAlmostEqual(calcular_monto_total(1000, 5600), 9.82 )
 
     def test_descontar_comision(self):
-        monto_descontado = descontar_comision(1000, 5)
-        self.assertAlmostEqual(round(monto_descontado, 2), 950.0)  # Resultado esperado redondeado
+        # Pruebas para descontar_comision
+        self.assertAlmostEqual(descontar_comision(1000, 10), 900.0)
+        self.assertAlmostEqual(descontar_comision(1000, 5), 950.0)
 
     def test_calcular_monto_plazo_fijo(self):
-        monto_final = calcular_monto_plazo_fijo(1000, 2)
-        self.assertAlmostEqual(round(monto_final, 2), 1020.0)  # Resultado esperado redondeado
+        # Pruebas para calcular_monto_plazo_fijo
+        self.assertAlmostEqual(calcular_monto_plazo_fijo(1000, 5), 1050.0)
+        self.assertAlmostEqual(calcular_monto_plazo_fijo(1000, 10), 1100.0)
 
 if __name__ == '__main__':
     unittest.main()
