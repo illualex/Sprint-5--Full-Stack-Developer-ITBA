@@ -1,0 +1,4 @@
+# Ejemplos de creación de objetos
+classic_client = ClienteClassic()
+gold_client = ClienteGold()
+black_client = ClienteBlack()
