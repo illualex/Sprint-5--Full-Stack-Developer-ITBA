@@ -1,6 +1,7 @@
 from cliente import Cliente
 from tipoCuenta import CajaAhorroDolar, CajaAhorroPeso, CuentaCorrientePeso, CuentaInversion
 from tipoTarjeta import TarjetaCredito, TarjetaDebito
+from funciones import calcular_monto_total, descontar_comision, calcular_monto_plazo_fijo
 
 class ClienteBlack(Cliente):
     def __init__(self, numero, nombre, apellido, dni, tipo, transacciones):
@@ -67,6 +68,7 @@ class ClienteBlack(Cliente):
         total += total * impuesto_pais
         total += total * ganancias
         return total
+    
 
     def descontar_comision(self, monto, comision_porcentaje):
         comision = monto * comision_porcentaje

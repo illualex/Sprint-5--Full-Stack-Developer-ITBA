@@ -1,6 +1,8 @@
 from cliente import Cliente
 from tipoCuenta import CajaAhorroDolar, CajaAhorroPeso, CuentaCorrientePeso
 from tipoTarjeta import TarjetaCredito, TarjetaDebito
+from funciones import calcular_monto_total, descontar_comision, calcular_monto_plazo_fijo
+
 
 class ClienteGold(Cliente):
     def __init__(self, numero, nombre, apellido, dni, tipo, transacciones):
