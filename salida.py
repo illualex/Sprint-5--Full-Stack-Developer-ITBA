@@ -1,6 +1,7 @@
+# Genera un HTML de salida.
+# Utiliza los Datos del Cliente para saber de quien es la operación y Genera un Resumen de su cuenta.
 class Salida:
     def generar_tabla_html(cliente, resumen):
-        # Abre un archivo HTML en modo de escritura
         with open('informe.html', 'w') as archivo:
             # Escribe la estructura básica del HTML
             archivo.write('<html>')
@@ -28,4 +29,5 @@ class Salida:
             archivo.write('</body>')
             archivo.write('</html')
 
+        # Mensaje de confirmación de la salida de archivo en HTML.
         print("Archivo HTML 'informe.html' creado con éxito.")
