@@ -1,3 +1,4 @@
+# Clase para determinar el tipo de cuenta.
 class TipoCuenta:
     def __init__(self, nombre):
         self.nombre = nombre
