@@ -4,3 +4,5 @@
 		python main.py cliente_classic.json
 		python main.py cliente_gold.json
 		python main.py cliente_black.json
+
+adsasdadsasdas
